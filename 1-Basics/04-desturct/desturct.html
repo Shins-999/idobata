@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const screen = {
+            width: 640,
+            height: 480,
+            color: "#FFFF",
+            area: () => { }
+        };
+
+        const { width, height } = screen;
+        console.log("幅", width, "高さ", height);
+
+        const object2 = {
+            width,
+            height,
+            area: () => { }
+        };
+        console.log(object2);
+
+        const array1 = [1, 2, 3, 4, 5];
+        const array2 = [...array1, 6, 7, 8];
+        console.log(array2);
+
+        const string1 = 'こんにちは' + "こんにちは";
+        const string3 = `幅: ${width} x 高さ: ${height}`;
+        console.log(`str3:`, string3);
+
+        const tag1 = `<input name="text">`
+        const string4 = `5かける5は: ${5 * 5}`;
+        console.log(string4);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
