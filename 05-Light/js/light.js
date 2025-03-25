@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
+import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
+import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 window.addEventListener("DOMContentLoaded", () => {
-
 
     function main() {
         const canvas = document.querySelector('#c');
         const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
+        RectAreaLightUniformsLib.init();
 
         const fov = 45;
         const aspect = 2; // the canvas default
@@ -37,13 +38,53 @@ window.addEventListener("DOMContentLoaded", () => {
             makeInstanceTextures(geometry, 0xaa8844, 2),
         ];
 
+        //HemisphereLight（半球光源）
         // const color = 0xFFFFFF;
-        const skyColor = 0xB1E1FF;  // light blue
-        const groundColor = 0xB97A20;  // brownish orange
-        const intensity = 1;
+        // const skyColor = 0xB1E1FF;  // light blue
+        // const groundColor = 0xB97A20;  // brownish orange
+        // const intensity = 1;
         // const light = new THREE.AmbientLight(color, intensity);
-        const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+        // const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+        // scene.add(light);
+
+        //DiretionalLight（平行光源）
+        // const color = 0xFFFFFF;
+        // const intensity = 1;
+        // const light = new THREE.DirectionalLight(color, intensity);
+        // light.position.set(0, 10, 0);
+        // light.target.position.set(-5, 0, 0);
+        // scene.add(light);
+        // scene.add(light.target);
+
+        //PointLight（点光源）
+        // const color = 0xFFFFFF;
+        // const intensity = 150;
+        // const light = new THREE.PointLight(color, intensity);
+        // light.position.set(0, 10, 0);
+        // scene.add(light);
+
+        //SpotLight（集中光源）
+        // const color = 0xFFFFFF;
+        // const intensity = 150;
+        // const light = new THREE.SpotLight(color, intensity);
+        // scene.add(light);
+        // scene.add(light.target);
+
+        // const helper = new THREE.SpotLightHelper(light);
+        // scene.add(helper);
+
+        //RectAreaLight（短形光源）
+        const color = 0xFFFFFF;
+        const intensity = 5;
+        const width = 12;
+        const height = 4;
+        const light = new THREE.RectAreaLight(color, intensity);
+        light.position.set(0, 10, 0);
+        light.rotation.x = THREE.MathUtils.degToRad(-90);
         scene.add(light);
+
+        const helper = new RectAreaLightHelper(light);
+        light.add(helper);
 
         const planeSize = 40;
 
@@ -56,7 +97,7 @@ window.addEventListener("DOMContentLoaded", () => {
         textureFloor.repeat.set(repeats, repeats);
 
         const planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
-        const planeMat = new THREE.MeshPhongMaterial({
+        const planeMat = new THREE.MeshStandardMaterial({
             map: textureFloor,
             side: THREE.DoubleSide,
         });
@@ -88,7 +129,7 @@ window.addEventListener("DOMContentLoaded", () => {
         requestAnimationFrame(render);
 
         function makeInstance(geometry, color, x) {
-            const material = new THREE.MeshPhongMaterial({ color });
+            const material = new THREE.MeshStandardMaterial({ color });
             const cube = new THREE.Mesh(geometry, material);
             scene.add(cube);
 
